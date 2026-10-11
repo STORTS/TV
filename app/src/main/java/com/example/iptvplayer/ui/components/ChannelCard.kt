@@ -1,7 +1,10 @@
 package com.example.iptvplayer.ui.components
 
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -9,6 +12,7 @@ import androidx.compose.material.icons.filled.Tv
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
@@ -29,31 +33,27 @@ fun ChannelCard(
     modifier: Modifier = Modifier
 ) {
     var isFocused by remember { mutableStateOf(false) }
-    val scale by animateFloatAsState(targetValue = if (isFocused) 1.1f else 1.0f, label = "cardScale")
+    val scale by animateFloatAsState(targetValue = if (isFocused) 1.08f else 1.0f, label = "cardScale")
 
-    Card(
-        onClick = onClick,
+    Box(
         modifier = modifier
             .width(180.dp)
             .height(130.dp)
             .scale(scale)
-            .onFocusChanged { isFocused = it.isFocused },
-        shape = CardDefaults.shape(RoundedCornerShape(12.dp)),
-        border = CardDefaults.border(
-            focusedBorder = Border(
-                border = BorderStroke(2.5.dp, Color(0xFF64B5F6)),
+            .onFocusChanged { isFocused = it.isFocused }
+            .focusable()
+            .clickable(onClick = onClick)
+            .clip(RoundedCornerShape(12.dp))
+            .background(if (isFocused) Color(0xFF263238) else Color(0xFF1E232A))
+            .border(
+                width = if (isFocused) 2.5.dp else 0.dp,
+                color = if (isFocused) Color(0xFF64B5F6) else Color.Transparent,
                 shape = RoundedCornerShape(12.dp)
             )
-        ),
-        colors = CardDefaults.colors(
-            containerColor = Color(0xFF1E232A),
-            focusedContainerColor = Color(0xFF263238)
-        )
+            .padding(8.dp)
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
