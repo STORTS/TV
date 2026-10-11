@@ -110,14 +110,14 @@ fun HomeScreen(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         contentPadding = PaddingValues(vertical = 4.dp)
                     ) {
-                        items(uiState.categories) { category ->
-                            FilterChip(
-                                selected = category == uiState.selectedCategory,
-                                onClick = { onCategorySelected(category) }
-                            ) {
-                                Text(text = category)
-                            }
-                        }
+                       items(uiState.categories) { category ->
+    FilterChip(
+        selected = category == uiState.selectedCategory,
+        onClick = { onCategorySelected(category) },
+        label = { Text(text = category) }
+    )
+}
+
                     }
 
                     Spacer(modifier = Modifier.height(20.dp))
